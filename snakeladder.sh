@@ -5,6 +5,7 @@
 	SNAKE=1
 	LADDER=2
 	LIMITUPTOPLAY=100
+	RESETPOSITION=0
 	#variable
 	position=0
 
@@ -12,7 +13,7 @@
 	function rollingDie()
    {
 		dieValue=$((RANDOM%6+1))
-O	}
+	}
 
 
 	function playingOption()
@@ -27,15 +28,15 @@ O	}
 
 				$SNAKE )
 				position=$(( $position-$dieValue ));;
-		esac 
+		esac
 
-		if [ $position -lt 0 ]
+		if [ $position -lt $RESETPOSITION ]
 		then
 			position=0
 		fi
 	}
 
-	while [ $position -lt $LIMITUPTOPLAY ]
+	while [ $position -le  $LIMITUPTOPLAY ]
 	do
 		rollingDie
 		playingOption

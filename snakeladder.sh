@@ -5,6 +5,6 @@
 	
 	function rollingDie()
 	{
-		dieValue=$((RANDOM%6))
+		dieValue=$((RANDOM%6+1))
 	}
 	rollingDie

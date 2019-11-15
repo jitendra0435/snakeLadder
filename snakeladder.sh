@@ -1,17 +1,19 @@
-  echo "Welcome to  the program Snakeladder"
+	 echo "Welcome to  the program Snakeladder"
 
-	#constants  
+   #constants  
 	NOPLAY=0
 	SNAKE=1
 	LADDER=2
+	LIMITUPTOPLAY=100
 	#variable
 	position=0
+
+
 	function rollingDie()
    {
 		dieValue=$((RANDOM%6+1))
-	}
-	
-	rollingDie
+O	}
+
 
 	function playingOption()
 	{
@@ -24,8 +26,17 @@
 				position=$(( $position+$dieValue ));;
 
 				$SNAKE )
-				position=$(( $position+$dieValue ));;
-		esac
+				position=$(( $position-$dieValue ));;
+		esac 
+
+		if [ $position -lt 0 ]
+		then
+			position=0
+		fi
 	}
 
-	playingOption
+	while [ $position -lt $LIMITUPTOPLAY ]
+	do
+		rollingDie
+		playingOption
+	done

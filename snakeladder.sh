@@ -1,4 +1,10 @@
-  echo "Welcome to  the program Snakeladder
+  echo "Welcome to  the program Snakeladder"
 	
 	#constants
-   possition=0
+   position=0
+	
+	function rollingDie()
+	{
+		dieValue=$((RANDOM%6))
+	}
+	rollingDie

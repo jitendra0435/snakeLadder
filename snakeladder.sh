@@ -1,4 +1,4 @@
-	#!/bin/bash -x 
+ #!/bin/bash -x 
     echo "Welcome to  the program Snakeladder"
 
     #constants
@@ -9,25 +9,29 @@
 	declare RESETPOSITION=0
 
 	#variable
+	declare player1=0
+	declare player2=0
 	declare position=0
 	declare count=0
+	declare getplayer=0
 	declare dieCounter=0
 	declare -A positionReport
-	
-	function rollingDie(){
 
-		dieValue=$((RANDOM%6+1))
-		dieCounter=$(($dieCounter+1))
-	}
+
+		function rollingDie(){
+
+			dieValue=$((RANDOM%6+1))
+			dieCounter=$(($dieCounter+1))
+		}
 
 
 		function startPlaying(){
 
-		rollingDie
+			rollingDie
 
-		playChoice=$((RANDOM%3))
+			playChoice=$((RANDOM%3))
 
-		case $playChoice in $NOPLAY )
+			case $playChoice in $NOPLAY )
 				possition=0;;
 
 				$LADDER )
@@ -36,33 +40,62 @@
 				$SNAKE )
 
 				position=$(( $position-$dieValue ));;
-		esac
+			esac
 
-		if [ $position -lt  $RESETPOSITION ]
-		then
-			position=0
 
-		elif [ $position -gt $LIMITUPTOPLAY ]
-		then
+			if [ $position -lt $RESETPOSITION ]
+			then
+				position=0
+
+			elif [ $position -gt $LIMITUPTOPLAY ]
+			then
+
 			position=$(( $position-$dieValue ))
+			fi
 
 			positionReport[count]=$position 
 		   count=$(($count+1))
-		fi
 
-	}
+		}
 
-	 while [ $position -lt $LIMITUPTOPLAY ]
-  	 do
-		if [ $position -ne  $LIMITUPTOPLAY ]
-		then 
-			startPlaying
-		else
-			break;
-		fi	
-	done
+			function checkPlayer(){
+
+				if [ $(( $getplayer %2 )) -eq 0 ]
+				then
+					player1=$position
+  	   		else
+					player2=$position
+				fi
+		  			getplayer=$(( $getplayer+1  ))
+
+		}
+
+			 function getWinner(){
+
+				if [ $player2 -eq $LIMITUPTOPLAY ] 
+       		then
+                 echo "First player win" 
+                 break;
 
 
+     		   elif [ $player2 -eq $LIMITUPTOPLAY ] 
+        		then  
+                  echo "secound player  win"
+                  break;
+        		 fi
+			}
 
 
+   		function startGame(){
 
+			 while [ $position -lt  $LIMITUPTOPLAY ]
+  	 	  	do
+				checkPlayer
+				startPlaying
+				getWinner
+
+			done
+
+			}
+
+		startGame

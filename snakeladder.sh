@@ -1,23 +1,31 @@
-	 echo "Welcome to  the program Snakeladder"
+	#!/bin/bash -x 
+        echo "Welcome to  the program Snakeladder"
 
-   #constants  
-	NOPLAY=0
-	SNAKE=1
-	LADDER=2
-	LIMITUPTOPLAY=100
-	RESETPOSITION=0
+    #constants
+	declare NOPLAY=0
+	declare SNAKE=1
+	declare LADDER=2
+	declare LIMITUPTOPLAY=100
+	declare RESETPOSITION=0
+
 	#variable
-	position=0
+	declare position=0
+	declare winCount=0
+	declare count=0
+	
+	declare -A report
 
 
-	function rollingDie()
-   {
+	function rollingDie(){
+
 		dieValue=$((RANDOM%6+1))
 	}
 
 
-	function playingOption()
-	{
+		function startPlaying(){
+
+		rollingDie
+
 		playChoice=$((RANDOM%3))
 
 		case $playChoice in $NOPLAY )
@@ -27,17 +35,32 @@
 				position=$(( $position+$dieValue ));;
 
 				$SNAKE )
+
 				position=$(( $position-$dieValue ));;
 		esac
 
-		if [ $position -lt $RESETPOSITION ]
+		if [ $position -lt  $RESETPOSITION ]
 		then
 			position=0
+
+		elif [ $position -gt $LIMITUPTOPLAY ]
+		then
+			position=$(( $position-$dieValue ))
+ 
 		fi
 	}
 
-	while [ $position -le  $LIMITUPTOPLAY ]
-	do
-		rollingDie
-		playingOption
+	 while [ $position -lt  $LIMITUPTOPLAY ]
+  	 do
+		if [ $position -ne  $LIMITUPTOPLAY ]
+		then 
+			startPlaying
+		else
+			break;
+		fi	
 	done
+
+
+
+
+

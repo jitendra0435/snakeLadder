@@ -45,14 +45,9 @@
 		elif [ $position -gt $LIMITUPTOPLAY ]
 		then
 			position=$(( $position-$dieValue ))
-
-			positionReport[count]=$position
-         count=$(($count+1))
-         echo "position of die :" ${positionReport[@]}
-         echo "NumberOf dies :" $dieCounter
-
+			positionReport[count]=$position 
+		   count=$(($count+1))
 		fi
-		
 
 	}
 

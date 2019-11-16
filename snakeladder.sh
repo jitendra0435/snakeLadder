@@ -10,6 +10,10 @@
 
 	#variable
 	declare position=0
+	declare count=0
+	declare dieCounter=0
+	declare -A positionReport
+	
 	function rollingDie(){
 
 		dieValue=$((RANDOM%6+1))
@@ -42,7 +46,10 @@
 		then
 			position=$(( $position-$dieValue ))
 
+			positionReport[count]=$position 
+		   count=$(($count+1))
 		fi
+
 	}
 
 	 while [ $position -lt $LIMITUPTOPLAY ]

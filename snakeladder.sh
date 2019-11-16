@@ -1,5 +1,5 @@
 	#!/bin/bash -x 
-        echo "Welcome to  the program Snakeladder"
+    echo "Welcome to  the program Snakeladder"
 
     #constants
 	declare NOPLAY=0
@@ -10,15 +10,10 @@
 
 	#variable
 	declare position=0
-	declare winCount=0
-	declare count=0
-	
-	declare -A report
-
-
 	function rollingDie(){
 
 		dieValue=$((RANDOM%6+1))
+		dieCounter=$(($dieCounter+1))
 	}
 
 
@@ -46,11 +41,11 @@
 		elif [ $position -gt $LIMITUPTOPLAY ]
 		then
 			position=$(( $position-$dieValue ))
- 
+
 		fi
 	}
 
-	 while [ $position -lt  $LIMITUPTOPLAY ]
+	 while [ $position -lt $LIMITUPTOPLAY ]
   	 do
 		if [ $position -ne  $LIMITUPTOPLAY ]
 		then 

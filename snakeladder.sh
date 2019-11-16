@@ -1,101 +1,98 @@
- #!/bin/bash -x 
-    echo "Welcome to  the program Snakeladder"
-
-    #constants
+	 #!/bin/bash -x 
+	 echo "Welcome to  the program Snakeladder"
+	 #constant	
 	declare NOPLAY=0
 	declare SNAKE=1
 	declare LADDER=2
-	declare LIMITUPTOPLAY=100
+	declare WINPOSITION=100
 	declare RESETPOSITION=0
+	declare PLAYER1=0
+	declare SIDESOFDIE=6
 
 	#variable
 	declare player1=0
 	declare player2=0
 	declare position=0
-	declare count=0
-	declare getplayer=0
-	declare dieCounter=0
 	declare -A positionReport
 
 
 		function rollingDie(){
-
-			dieValue=$((RANDOM%6+1))
+			
+			local dieCounter=0
+			dieValue=$((RANDOM%$SIDESOFDIE+1))
 			dieCounter=$(($dieCounter+1))
 		}
 
+		function startplaying(){
+				
+				local countPosition=0
+				local choice=3
+				rollingDie
+				playChoice=$((RANDOM%$choice))
+			
+				case $playChoice in $NOPLAY )
+		
+					possition=0;;
+			
+					$LADDER )
+					position=$(( $position+$dieValue ));;
+			
+					$SNAKE )
+					position=$(( $position-$dieValue ));;
 
-		function startPlaying(){
+				esac
 
-			rollingDie
-
-			playChoice=$((RANDOM%3))
-
-			case $playChoice in $NOPLAY )
-				possition=0;;
-
-				$LADDER )
-				position=$(( $position+$dieValue ));;
-
-				$SNAKE )
-
-				position=$(( $position-$dieValue ));;
-			esac
-
-
-			if [ $position -lt $RESETPOSITION ]
-			then
-				position=0
-
-			elif [ $position -gt $LIMITUPTOPLAY ]
-			then
-
-			position=$(( $position-$dieValue ))
-			fi
-
-			positionReport[count]=$position 
-		   count=$(($count+1))
-
-		}
-
-			function checkPlayer(){
-
-				if [ $(( $getplayer %2 )) -eq 0 ]
+				if [ $position -lt $RESETPOSITION ]
 				then
-					player1=$position
-  	   		else
-					player2=$position
+					position=0
+
+				elif [ $position -gt $WINPOSITION ]
+				then
+					position=$(( $position-$dieValue ))
+
 				fi
-		  			getplayer=$(( $getplayer+1  ))
+		
+					positionReport[countPosition]=$position 
+					countPosition=$(($countPosition+1))
+		}
+		
+		function selectplayer(){
+			local choosePlayer=0
+			if [ $(( $choosePlayer % 2 )) -eq $PLAYER1  ]
+			then
+			player1=$position
+			else
+			player2=$position	
+			fi
+	
+			getplayer=$(( $choosePlayer+1  ))
 
 		}
 
-			 function getWinner(){
+		function getwinner(){
+			if [ $player2 -eq $WINPOSITION ] 
+			then
+			echo "Player1 Win" 
+			break;
 
-				if [ $player2 -eq $LIMITUPTOPLAY ] 
-       		then
-                 echo "First player win" 
-                 break;
-
-
-     		   elif [ $player2 -eq $LIMITUPTOPLAY ] 
-        		then  
-                  echo "secound player  win"
-                  break;
-        		 fi
-			}
+			elif [ $player2 -eq $WINPOSITION ] 
+			then  
+			echo "secound player  win"
+			break;
+			fi
+		}
 
 
-   		function startGame(){
+			function startGame(){
 
-			 while [ $position -lt  $LIMITUPTOPLAY ]
-  	 	  	do
-				checkPlayer
-				startPlaying
-				getWinner
+			while [ $position -lt  $WINPOSITION ]
+			do
+				selectplayer
+				startplaying
+				getwinner
 
 			done
 
 			}
-
-		startGame
+			
+			startGame

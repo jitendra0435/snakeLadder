@@ -10,6 +10,7 @@
 	declare SIDESOFDIE=6
 
 	#variable
+	declare diaValue=0
 	declare player1=0
 	declare player2=0
 	declare position=0
@@ -27,7 +28,9 @@
 				
 				local countPosition=0
 				local choice=3
+
 				rollingDie
+
 				playChoice=$((RANDOM%$choice))
 			
 				case $playChoice in $NOPLAY )
@@ -42,42 +45,42 @@
 
 				esac
 
-				if [ $position -lt $RESETPOSITION ]
-				then
-					position=0
+					if [ $position -lt $RESETPOSITION ]
+						then
+							position=0
 
-				elif [ $position -gt $WINPOSITION ]
-				then
-					position=$(( $position-$dieValue ))
+					elif [ $position -gt $WINPOSITION ]
+						then
+							position=$(( $position-$dieValue ))
 
-				fi
+					fi
 		
-					positionReport[countPosition]=$position 
-					countPosition=$(($countPosition+1))
+						positionReport[countPosition]=$position 
+						countPosition=$(($countPosition+1))
 		}
 		
 		function selectplayer(){
 			local choosePlayer=0
 			if [ $(( $choosePlayer % 2 )) -eq $PLAYER1  ]
-			then
-			player1=$position
+				then
+					player1=$position
 			else
-			player2=$position	
+					player2=$position	
 			fi
 	
-			getplayer=$(( $choosePlayer+1  ))
+				getplayer=$(( $choosePlayer+1  ))
 
 		}
 
 		function getwinner(){
 			if [ $player2 -eq $WINPOSITION ] 
-			then
-			echo "Player1 Win" 
+				then
+					echo "Player1 Win" 
 			break;
 
 			elif [ $player2 -eq $WINPOSITION ] 
-			then  
-			echo "secound player  win"
+				then  
+					echo "secound player  win"
 			break;
 			fi
 		}
